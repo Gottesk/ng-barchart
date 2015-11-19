@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru-RU" lang="ru-RU">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>AngularJS Barchart Demo</title>
+
+    <link rel="stylesheet" type="text/css" href='http://fonts.googleapis.com/css?family=Lato:300,400,700,700italic'>
+    <link rel="stylesheet" type="text/css" href="http://fortawesome.github.io/Font-Awesome/assets/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" type="text/css" href="../dist/angular-barchart.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+
+    <script type="text/javascript" src="http://momentjs.com/downloads/moment-with-locales.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js"></script>
+    <script type="text/javascript" src="../dist/angular-barchart.min.js"></script>
+    
+    <script type="text/javascript">
+        angular.module('app', ['angularBarchart'])
+            .controller('AppCtrl', ['$scope', '$interval',
+                function ($scope, $interval) {
+
+                    var months = [
+                        'January',
+                        'February',
+                        'March',
+                        'April',
+                        'May',
+                        'June',
+                        'July',
+                        'August',
+                        'September',
+                        'October',
+                        'November',
+                        'December'
+                    ];
+
+                    $scope._getRandomValues = function (range) {
+                        var _arr = [];
+                        var date = new Date();
+
+                        for (var i=0; i < range;i++) {
+                            var item = {
+                                value: Math.floor(Math.random() * range),
+                                data: {
+                                    description: months[date.getMonth()] + ' ' + date.getFullYear()
+                                }
+                            };
+                            _arr.push(item);
+                            date.setMonth(date.getMonth() - 1);
+                        }
+                        return _arr;
+                    };
+
+                    $scope.drawBars = function () {
+                        $scope.data = {
+                            ios: $scope._getRandomValues(120),
+                            android: $scope._getRandomValues(120),
+                            windows: $scope._getRandomValues(120),
+                            other: $scope._getRandomValues(120)
+                        };
+                        console.log('$scope.data ', $scope.data);
+                    };
+
+                    $interval(function () {
+                        $scope.drawBars();
+                    }, 10000);
+
+                    $scope.currentBar = {};
+
+                    $scope.$watchCollection('currentBar', function () {
+                        console.log($scope.currentBar);
+                    });
+                }
+            ]);
+
+    </script>
+
+</head>
+
+<body ng-app="app" ng-controller="AppCtrl" ng-init="drawBars()">
+
+    <div class="main-container">
+        <div class="navbar">
+            <h1>
+                AngularJS Barchart directive<br/>
+                <small>demo</small>
+            </h1>
+        </div>
+        <div class="container bars-container">
+
+            <h4><span>iOS</span></h4>
+            <bar-chart data="data.ios" bar-model="currentBar"></bar-chart>
+
+            <h4><span>Android</span></h4>
+            <bar-chart data="data.android" bar-model="currentBar"></bar-chart>
+
+            <h4><span>Windows</span></h4>
+            <bar-chart data="data.windows" bar-model="currentBar"></bar-chart>
+
+            <h4><span>Other</span></h4>
+            <bar-chart data="data.other" bar-model="currentBar"></bar-chart>
+
+            <h3>Selected bar: {{ currentBar }}</h3>
+
+        </div>
+    </div>
+
+</body>
+</html>

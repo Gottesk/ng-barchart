@@ -1,0 +1,10 @@
+div.bc-container
+    div(ng-repeat="item in data track by $index").bc-bar-backround(ng-style="getBarBackgorundStyle()"
+    ng-click="barItemClick(item)")
+        span(ng-style="getBarStyle(item)").bc-bar
+        span.bc-bar-tooltip(ng-style="getBarTooltipStyle()")
+            p
+                b {{ item.value }}
+                br(ng-if="item.data.description")
+                span {{ item.data.description }}
+    div.bc-bar-nodata(ng-show="!data || data.length==0") Нет данных

@@ -1,0 +1,68 @@
+color_gray = #ddd;
+color_blue = #2D6A99;
+color_tooltip = rgba(0,20,35,.80);
+
+bar-chart {
+  display: block;
+}
+.bc-container {
+  width: 100%;
+  z-index: 1;
+}
+.bc-bar-backround {
+  position: relative;
+  display: inline-block;
+  height: 100%;
+  border-bottom: 1px solid #ccc;
+}
+.bc-bar-backround:hover {
+  background-color: color_gray;
+}
+.bc-bar-backround:hover .bc-bar {
+  background-color: color_blue + 10%;
+}
+.bc-bar-backround:hover .bc-bar-tooltip {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.bc-bar {
+  background-color: color_blue;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height 0%;
+  -webkit-transition: height linear .5s;
+  transition: height linear .5s;
+  &:hover {
+    background-color: color_blue + 10%;
+  }
+}
+
+
+.bc-bar-tooltip {
+  position: absolute;
+  width: auto;
+  left: -50%;
+  background-color: color_tooltip;
+  color: #fff;
+  padding: 2px 15px;
+  opacity: 0;
+  transform: scale(0);
+  z-index: 5;
+  font-size: 14px;
+  text-align center
+  -webkit-transition: all linear .15s;
+  transition: all linear .15s;
+}
+
+.bc-bar-tooltip  p{
+  padding: 0;
+  margin: 0;
+}
+
+.bc-bar-nodata {
+  margin: 10px 20px;
+  color: #777;
+}
